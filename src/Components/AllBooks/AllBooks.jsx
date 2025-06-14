@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router';
 
 const AllBooks = () => {
     const [books, setBooks] = useState([]);
@@ -38,16 +39,20 @@ const AllBooks = () => {
                         <p className="text-yellow-500 font-semibold mb-3">⭐ {book.rating} / 5</p>
                         <p className="text-gray-700 flex-grow">{book.shortDescription}</p>
 
-                        <button
-                            className="mt-4 bg-blue-600 hover:bg-blue-700 text-white rounded px-4 py-2 font-semibold transition"
-                            onClick={() => alert(`Show details for: ${book.name}`)}
-                        >
-                            Details
-                        </button>
+                        <Link to={`/books/${book._id}`}>
+                            <button
+                                className="mt-4 bg-blue-600 hover:bg-blue-700 text-white rounded px-4 py-2 font-semibold transition"
+                                onClick={() => alert(`Show details for: ${book.name}`)}
+                            >
+                                Details
+                            </button>
+                        </Link>
+
                     </div>
                 </div>
-            ))}
-        </div>
+            ))
+            }
+        </div >
     );
 };
 
