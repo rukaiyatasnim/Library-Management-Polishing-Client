@@ -21,12 +21,14 @@ const Navbar = () => {
                     </div>
                     <ul
                         tabIndex={0}
-                        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-                        <li><a>Home</a></li>
-                        <li><a>All Books</a></li>
-                        <li><a>Add Book </a></li>
-                        <li><a>Borrowed Books  </a></li>
+                        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+                    >
+                        <li><NavLink to="/">Home</NavLink></li>
+                        <li><NavLink to="/allBooks">All Books</NavLink></li>
+                        <li><NavLink to="/addBook">Add Book</NavLink></li>
+                        <li><NavLink to="/borrowedBooks">Borrowed Books</NavLink></li>
                     </ul>
+
                 </div>
                 <a className="btn btn-ghost text-xl"  >BookiQ</a>
             </div>
