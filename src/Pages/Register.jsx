@@ -1,9 +1,7 @@
-import React, { useContext } from 'react';
-import { AuthContext } from '../Contexts/AuthContext/AuthContext';
-import { NavLink } from 'react-router';
-
+import React from 'react';
+import useAuth from '../Hooks/useAuth';
 const Register = () => {
-    const { createUser } = useContext(AuthContext);
+    const { createUser } = useAuth();
 
     const handleRegister = (e) => {
         e.preventDefault();
@@ -11,39 +9,36 @@ const Register = () => {
         const name = form.name.value;
         const email = form.email.value;
         const password = form.password.value;
-        console.log(name, email, password);
 
-        // Call createUser inside the form handler
-        createUser(email, password)
-            .then(res => {
-                console.log("User created:", res.user);
+        createUser(email, password, name)
+            .then(() => {
+                alert("Registration successful!");
             })
             .catch(err => {
-                console.error("Registration error:", err);
+                console.error("Error:", err);
             });
     };
 
     return (
-        <div className="hero bg-base-200 min-h-screen">
-            <div className="hero-content flex-col lg:flex-row-reverse"></div>
-            <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-                <div className="card-body">
-                    <h1 className="text-5xl font-bold text-black">Register now!</h1>
-                    <form onSubmit={handleRegister} className="fieldset">
-                        <label className="label">Name</label>
-                        <input type="text" name="name" className="input" placeholder="Name" required />
-                        <label className="label">Email</label>
-                        <input type="email" name="email" className="input" placeholder="Email" required />
-                        <label className="label">PhotoURL</label>
-                        <input type="text" className="input" name='photo' placeholder="PhotoURL" required />
-                        <label className="label">Password</label>
-                        <input type="password" name="password" className="input" placeholder="Password" required />
-                        <div><a className="link link-hover">Already Have an Account?</a> <NavLink className="text-red-600" to="/signIn">
-                            Login Here</NavLink> </div>
-                        <button type="submit" className="btn btn-neutral mt-4">Register</button>
-                    </form>
+        <div className="max-w-md mx-auto mt-16 p-6 bg-white border border-gray-300 rounded-lg shadow-md">
+            <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
+            <form onSubmit={handleRegister} className="space-y-4">
+                <div>
+                    <label className="block font-medium mb-1">Name</label>
+                    <input type="text" name="name" className="w-full border px-3 py-2 rounded" required />
                 </div>
-            </div>
+                <div>
+                    <label className="block font-medium mb-1">Email</label>
+                    <input type="email" name="email" className="w-full border px-3 py-2 rounded" required />
+                </div>
+                <div>
+                    <label className="block font-medium mb-1">Password</label>
+                    <input type="password" name="password" className="w-full border px-3 py-2 rounded" required />
+                </div>
+                <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+                    Register
+                </button>
+            </form>
         </div>
     );
 };
