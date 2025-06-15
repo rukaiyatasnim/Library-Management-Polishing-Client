@@ -1,0 +1,145 @@
+[
+  {
+    "_id": "684dc55ce21566dd8021ed37",
+    "name": "The Alchemist",
+    "author": "Paulo Coelho",
+    "category": "Novel",
+    "quantity": 10,
+    "rating": 4.7,
+    "shortDescription": "A philosophical novel about following your dreams.",
+    "content": "The Alchemist tells the mystical story of Santiago, an Andalusian shepherd boy who yearns to travel...",
+    "image": "https://i.ibb.co/dw8gpcfX/alchemist.jpg"
+  },
+  {
+    "_id": "684dc55ce21566dd8021ed38",
+    "name": "Pride and Prejudice",
+    "author": "Jane Austen",
+    "category": "Novel",
+    "quantity": 6,
+    "rating": 4.5,
+    "shortDescription": "Classic romantic novel of manners in 19th century England.",
+    "content": "Elizabeth Bennet navigates issues of manners, upbringing, morality, and marriage in early 19th-century England.",
+    "image": "https://i.ibb.co/60cV78Fp/Pride-And.jpg"
+  },
+  {
+    "_id": "684dc55ce21566dd8021ed39",
+    "name": "To Kill a Mockingbird",
+    "author": "Harper Lee",
+    "category": "Novel",
+    "quantity": 8,
+    "rating": 4.8,
+    "shortDescription": "A novel about racial injustice in the Deep South.",
+    "content": "Atticus Finch, a lawyer, defends a black man wrongly accused of a crime.",
+    "image": "https://i.ibb.co/DgY4QPnC/1200px-To-Kill-a-Mockingbird-first-edition-cover.jpg"
+  },
+  {
+    "_id": "684dc55ce21566dd8021ed3a",
+    "name": "The Great Gatsby",
+    "author": "F. Scott Fitzgerald",
+    "category": "Novel",
+    "quantity": 7,
+    "rating": 4.3,
+    "shortDescription": "A story about the American dream and decadence.",
+    "content": "Jay Gatsby tries to win back Daisy Buchanan amidst the Roaring Twenties.",
+    "image": "https://i.ibb.co/FbW568tv/The-Great.jpg"
+  },
+  {
+    "_id": "684dc55ce21566dd8021ed3b",
+    "name": "The Silent Patient",
+    "author": "Alex Michaelides",
+    "category": "Thriller",
+    "quantity": 7,
+    "rating": 4.1,
+    "shortDescription": "A psychological thriller about a woman's act of violence.",
+    "content": "A shocking thriller of a woman’s act of violence against her husband.",
+    "image": "https://i.ibb.co/8k4gyV6/silent.jpg"
+  },
+  {
+    "_id": "684dc55ce21566dd8021ed3d",
+    "name": "The Girl with the Dragon Tattoo",
+    "author": "Stieg Larsson",
+    "category": "Thriller",
+    "quantity": 5,
+    "rating": 4.2,
+    "shortDescription": "Mystery thriller with a hacker heroine.",
+    "content": "Investigating a disappearance with twists and conspiracies.",
+    "image": "https://i.ibb.co/mVPr2kcb/girl-Dragon.jpg"
+  },
+  {
+    "_id": "684dc55ce21566dd8021ed3e",
+    "name": "Sapiens: A Brief History of Humankind",
+    "author": "Yuval Noah Harari",
+    "category": "History",
+    "quantity": 5,
+    "rating": 4.6,
+    "shortDescription": "A compelling narrative of human history from the Stone Age.",
+    "content": "Explores how Homo sapiens came to dominate the Earth.",
+    "image": "https://i.ibb.co/vxCcCLPy/sapiens.jpg"
+  },
+  {
+    "_id": "684dc55ce21566dd8021ed3f",
+    "name": "The Wright Brothers",
+    "author": "David McCullough",
+    "category": "History",
+    "quantity": 3,
+    "rating": 4.4,
+    "shortDescription": "Biography of the inventors of the airplane.",
+    "content": "Story of Orville and Wilbur Wright’s perseverance.",
+    "image": "https://i.ibb.co/bgc90tFj/brothers.jpg"
+  },
+  {
+    "_id": "684dc55ce21566dd8021ed40",
+    "name": "1776",
+    "author": "David McCullough",
+    "category": "History",
+    "quantity": 6,
+    "rating": 4.5,
+    "shortDescription": "A narrative of the American Revolution.",
+    "content": "Details the year of America’s fight for independence.",
+    "image": "https://i.ibb.co/gbX2xqrX/1776.jpg"
+  },
+  {
+    "_id": "685abc55ce21566dd8021ed94",
+    "name": "Wanderlust: A Journey Around the Globe",
+    "author": "Emily Stone",
+    "category": "Travel",
+    "quantity": 5,
+    "rating": 4.6,
+    "shortDescription": "An inspiring travel diary exploring 12 countries.",
+    "content": "From the bustling streets of Tokyo to the calm fjords of Norway, this travelogue captures the spirit of discovery.",
+    "image": "https://i.ibb.co/276psTK8/Wanderlast.jpg"
+  },
+  {
+    "_id": "685abc55ce21566dd8021ed95",
+    "name": "Into the Wild",
+    "author": "Jon Krakauer",
+    "category": "Travel",
+    "quantity": 4,
+    "rating": 4.5,
+    "shortDescription": "The true story of a young man's solo journey into Alaska.",
+    "content": "A powerful narrative of adventure and the pursuit of meaning in the wilds of nature.",
+    "image": "https://i.ibb.co/mVd1GrhP/into-the-wild.jpg"
+  },
+  {
+    "_id": "685abc55ce21566dd8021ed96",
+    "name": "On the Road",
+    "author": "Jack Kerouac",
+    "category": "Travel",
+    "quantity": 6,
+    "rating": 4.2,
+    "shortDescription": "A classic road trip novel of freedom and rebellion.",
+    "content": "Follow Sal Paradise and Dean Moriarty as they search for meaning across 1950s America.",
+    "image": "https://i.ibb.co/sh83jJX/On-the-Road.jpg"
+  },
+  {
+    "_id": "685abc55ce21566dd8021ed97",
+    "name": "The Art of Travel",
+    "author": "Alain de Botton",
+    "category": "Travel",
+    "quantity": 3,
+    "rating": 4.4,
+    "shortDescription": "A philosophical look at why and how we travel.",
+    "content": "Blending stories, history, and reflections, this book explores the reasons behind our need to roam.",
+    "image": "https://i.ibb.co/MQzPp0N/The-Art-of-travel.jpgg"
+  }
+]
