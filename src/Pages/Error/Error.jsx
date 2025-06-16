@@ -1,8 +1,8 @@
 import React from 'react';
-// import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 
 const Error = () => {
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
     return (
         <div className="min-h-screen bg-white flex flex-col">
@@ -13,8 +13,8 @@ const Error = () => {
                     The page you are looking for doesn’t exist or has been moved.
                 </p>
                 <button
-                    // onClick={() => navigate('/')}
-                    className="px-6 py-2 bg-emerald-700 text-white rounded-full "
+                    onClick={() => navigate('/')}
+                    className="px-6 py-2 bg-cyan-100 dark:bg-cyan-900 text-white rounded-full "
                 >
                     Go to Homepage
                 </button>

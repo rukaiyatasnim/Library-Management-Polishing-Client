@@ -16,7 +16,7 @@ const Review = () => {
                 </div>
 
                 {/* Stats Section */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
                     <div className="bg-white shadow-xl rounded-2xl p-6 text-center hover:shadow-2xl transition-shadow duration-300">
                         <div className="text-4xl font-bold text-cyan-800 mb-2">
                             <CountUp end={120} duration={3} />+
@@ -36,6 +36,13 @@ const Review = () => {
                             <CountUp end={350} duration={3} />+
                         </div>
                         <h3 className="text-lg font-semibold text-cyan-700">Authors Featured</h3>
+                    </div>
+
+                    <div className="bg-white shadow-xl rounded-2xl p-6 text-center hover:shadow-2xl transition-shadow duration-300">
+                        <div className="text-4xl font-bold text-cyan-800 mb-2">
+                            <CountUp end={18000} duration={3} />+
+                        </div>
+                        <h3 className="text-lg font-semibold text-cyan-700">Books Borrowed & Read</h3>
                     </div>
 
                     <div className="bg-white shadow-xl rounded-2xl p-6 text-center hover:shadow-2xl transition-shadow duration-300">

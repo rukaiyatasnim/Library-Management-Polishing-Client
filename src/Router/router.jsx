@@ -28,7 +28,7 @@ export const router = createBrowserRouter([
             {
                 path: "/books/:id",
                 element: < BookDetails />,
-                loader: ({ params }) => fetch(`http://localhost:3000/books/${params.id}`)
+                loader: ({ params }) => fetch(`http://localhost:3000/books/${params.id}`).then(res => res.json())
             },
             {
                 path: "category/:name",
@@ -40,7 +40,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: "borrowedBooks",
-                element: <BorrowedBooks />,
+                element: <PrivateRoute></PrivateRoute>,
             },
             {
                 path: "addBook",

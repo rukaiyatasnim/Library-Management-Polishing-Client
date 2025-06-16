@@ -32,49 +32,49 @@ const Partner = () => {
 
 const partners = [
     {
-        name: 'BUET',
-        img: 'https://upload.wikimedia.org/wikipedia/en/thumb/d/da/BUET_LOGO.svg/1200px-BUET_LOGO.svg.png',
-        desc: 'Organizers of prestigious tech events, workshops, and conferences in Bangladesh.',
+        name: 'Bangladesh National Library',
+        img: 'https://nanl.portal.gov.bd/sites/default/files/files/nanl.portal.gov.bd/page/5305e7d8_e2b5_49da_8756_bdaaa90cbfd3/NLB.jpg',
+        desc: 'The central public library of Bangladesh, supporting reading programs, archiving national literature, and public access to books.',
+    },
+    {
+        name: 'British Council Library',
+        img: 'https://pbs.twimg.com/media/DVQoDMEVMAAl4V6.jpg:large',
+        desc: 'International cultural hub offering books, digital content, and global literature events in Bangladesh.',
+    },
+    {
+        name: 'Dhaka University Central Library',
+        img: 'https://cosmosgroup.sgp1.digitaloceanspaces.com/news/9m5i3JaDlHlUzZqpp4hzjiM3Vs7FG8brcIkrs9oB.jpeg',
+        desc: 'One of the oldest and largest academic libraries, partnering in research, reading campaigns, and student-focused literary events.',
+    },
+    {
+        name: 'Shishu Academy Library',
+        img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK4x716BBh8LqWueqJNpi3roDiKMelVaKIgQ&s',
+        desc: 'Dedicated to child education and literature, hosting storytelling sessions, book fairs, and cultural programs for kids.',
+    },
+    {
+        name: 'Bangla Academy',
+        img: 'https://tfe-bd.sgp1.cdn.digitaloceanspaces.com/uploads/1613787349.jpg',
+        desc: 'Promotes Bengali language, literature, and hosts the annual Ekushey Boi Mela and literary award events.',
+    },
+    {
+        name: 'Bishwa Shahitto Kendro',
+        img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZIU99yTy26dxGpDFaElQDXtpGTUzJ_wRgew&s',
+        desc: 'Non-profit organization encouraging reading habits among youth through book distribution, reading programs, and mobile libraries.',
     },
     {
         name: 'Shilpakala Academy',
-        img: 'https://scontent.fdac145-1.fna.fbcdn.net/v/t39.30808-6/470700551_603504008865697_7006684000393852012_n.jpg?...',
-        desc: 'Host of cultural events, art exhibitions, and performances showcasing Bangladeshi talent.',
+        img: 'https://upload.wikimedia.org/wikipedia/en/thumb/b/b0/Seal_of_Bangladesh_Shilpakala_Academy.svg/1200px-Seal_of_Bangladesh_Shilpakala_Academy.svg.png',
+        desc: 'Government institution promoting fine arts, music, drama, and literature; hosts exhibitions and literary festivals.',
     },
     {
-        name: 'Bangladesh Photography Club',
-        img: 'https://plus.unsplash.com/premium_photo-1674389991678-0836ca77c7f7?w=500&auto=format&fit=crop&q=60',
-        desc: 'Organizers of photography challenges and exhibitions across Dhaka and beyond.',
+        name: 'Rokomari.com',
+        img: 'https://www.rokomari.com/static/200/images/rokomari_og.jpg',
+        desc: 'Leading online bookstore in Bangladesh, often involved in book campaigns, author meetups, and reading events.',
     },
     {
-        name: 'ICCB',
-        img: 'https://scontent.fdac145-1.fna.fbcdn.net/v/t39.30808-6/358705819_272778832065017_4537462105771026487_n.jpg?...',
-        desc: 'Hosts large-scale conventions, exhibitions, and concerts in Dhaka.',
-    },
-    {
-        name: 'Bangladesh Film Academy',
-        img: 'https://img.freepik.com/free-photo/man-filming-with-professional-camera_23-2149066324.jpg',
-        desc: 'Promoting independent filmmakers and film festivals in Bangladesh.',
-    },
-    {
-        name: 'Dhaka Art Summit',
-        img: 'https://scontent.fdac145-1.fna.fbcdn.net/v/t39.30808-6/325651067_1290365108193119_7178101223333487215_n.jpg?...',
-        desc: 'Platform for contemporary art in South Asia, showcasing international and local artists.',
-    },
-    {
-        name: 'Bangladesh Academy of Fine Arts',
-        img: 'https://scontent.fdac145-1.fna.fbcdn.net/v/t39.30808-6/415014597_818618876736244_2728199419485330319_n.jpg?...',
-        desc: 'A hub for learning and promoting fine arts, with regular exhibitions and workshops.',
-    },
-    {
-        name: 'BRAC University',
-        img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw-9nh7_7_NzXRJ29p1HHmE8BpI7mt-hIuxA&s',
-        desc: 'Hosts academic and cultural events, bringing together students from diverse fields.',
-    },
-    {
-        name: 'IAB',
-        img: 'https://scontent.fdac145-1.fna.fbcdn.net/v/t39.30808-6/472238268_1011091661061792_683298278711206413_n.jpg?...',
-        desc: 'Organizes architectural exhibitions, conferences, and award ceremonies in Bangladesh.',
+        name: 'Tech For Bangladesh',
+        img: 'https://media.licdn.com/dms/image/v2/D4D0BAQHW1Tp0qsV2DA/company-logo_200_200/company-logo_200_200/0/1732084882706/tfbangladesh_logo?e=2147483647&v=beta&t=MvvzADAhYOEnzy_TY7xjWPAAw02ubVKr8TgcHM-84sk',
+        desc: 'A youth tech community organizing workshops, innovation events, and educational collaborations for a smarter Bangladesh.',
     }
 ];
 

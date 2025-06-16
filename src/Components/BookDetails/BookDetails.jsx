@@ -1,120 +1,51 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router';
-import useAuth from './../../Hooks/useAuth';
-import axios from 'axios';
-import Swal from 'sweetalert2'
+import React from "react";
+import { useLoaderData, Link } from "react-router-dom";
 
+const BookDetails = () => {
+    const book = useLoaderData();
 
-
-const Borrow = () => {
-    const { id: bookId } = useParams();
-    const { user } = useAuth();
-
-    const [returnDate, setReturnDate] = useState('');
-    const [borrowedDate, setBorrowedDate] = useState('');
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        if (!returnDate) {
-            alert('Please select a return date');
-            return;
-        }
-
-
-        const borrowedBook = {
-            bookId,
-            userName: user?.name,
-            userEmail: user?.email,
-            returnDate,
-            borrowedDate
-        }
-
-        axios.post("http://localhost:3000/borrowedBooks", borrowedBook)
-            .then(res => {
-                console.log(res.data)
-                if (res.data.insertedId) {
-                    Swal.fire({
-                        position: "top-end",
-                        icon: "success",
-                        title: "You Have Scuccessfully Borrowed The Book",
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                }
-            })
-            .catch(err => {
-                console.log(err)
-            })
-
-        alert(`Borrowed successfully! Please return by ${returnDate}`);
-    };
+    if (!book) return <p className="text-center mt-10">Book not found.</p>;
 
     return (
-        <div className="max-w-md mx-auto mt-16 p-6 bg-white border border-gray-200 rounded-xl shadow-md">
-            <h2 className="text-2xl font-bold mb-6 text-center text-blue-700">Borrow a Book</h2>
+        <div className="max-w-2xl mx-auto my-14 px-6 py-8 bg-white border border-gray-200 rounded-2xl shadow-lg">
+            <div className="mb-5 bg-blue-50 text-blue-800 border border-blue-200 p-4 rounded-lg text-sm text-center">
+                📖 Viewing: <span className="font-semibold text-blue-900">{book.name}</span>
+            </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                    <label className="block font-medium mb-1">Your Name</label>
-                    <input
-                        type="text"
-                        value={user?.name || ''}
-                        disabled
-                        className="w-full border px-3 py-2 rounded bg-gray-100"
-                    />
-                </div>
+            <h1 className="text-3xl font-bold text-blue-700 mb-4">{book.name}</h1>
 
-                <div>
-                    <label className="block font-medium mb-1">Email</label>
-                    <input
-                        type="email"
-                        value={user?.email || ''}
-                        disabled
-                        className="w-full border px-3 py-2 rounded bg-gray-100"
-                    />
-                </div>
-
-                <div>
-                    <label className="block font-medium mb-1">Borrowed Date</label>
-                    <input
-                        type="date"
-                        value={borrowedDate}
-                        onChange={(e) => setBorrowedDate(e.target.value)}
-                        className="w-full border px-3 py-2 rounded"
-                        required
-                    />
-                </div>
+            <div className="space-y-3 text-sm text-gray-700">
+                <p>
+                    <span className="font-semibold text-blue-600">Author:</span> {book.author}
+                </p>
+                <p>
+                    <span className="font-semibold text-blue-600">Category:</span> {book.category}
+                </p>
+                <p>
+                    <span className="font-semibold text-blue-600">Quantity:</span> {book.quantity}
+                </p>
+                <p>
+                    <span className="font-semibold text-blue-600">Rating:</span> ⭐ {book.rating} / 5
+                </p>
+                <p>
+                    <span className="font-semibold text-blue-600">Short Description:</span>
+                    <br />
+                    {book.shortDescription}
+                </p>
 
                 <div>
-                    <label className="block font-medium mb-1">Return Date</label>
-                    <input
-                        type="date"
-                        value={returnDate}
-                        onChange={(e) => setReturnDate(e.target.value)}
-                        className="w-full border px-3 py-2 rounded"
-                        required
-                    />
+                    <p className="font-semibold text-blue-600">Content:</p>
+                    <div className="text-sm text-gray-700 whitespace-pre-wrap">{book.content}</div>
                 </div>
+            </div>
 
-                <div className="flex justify-end gap-4 pt-2">
-                    <button
-                        type="button"
-                        className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
-                        onClick={() => window.history.back()}  // Simple cancel action
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        type="submit"
-                        className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700"
-                    >
-                        Borrow
-                    </button>
-                </div>
-            </form>
+            <Link to={`/borrow/${book._id}`}>
+                <button className="mt-8 w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-3 rounded-xl font-semibold shadow-md transition duration-300 text-center">
+                    📚 Borrow This Book
+                </button>
+            </Link>
         </div>
     );
 };
 
-export default Borrow;
+export default BookDetails;

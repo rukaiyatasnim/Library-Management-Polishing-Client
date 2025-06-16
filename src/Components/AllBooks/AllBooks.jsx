@@ -136,10 +136,10 @@ const AllBooks = () => {
             {editingBook && (
                 <div
                     className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
-                    onClick={() => !updating && setEditingBook(null)} // ক্লিক করলে modal বন্ধ
+                    onClick={() => !updating && setEditingBook(null)}
                 >
                     <form
-                        onClick={(e) => e.stopPropagation()} // ফর্মে ক্লিক করলে modal বন্ধ হবেনা
+                        onClick={(e) => e.stopPropagation()} 
                         onSubmit={handleUpdateSubmit}
                         className="bg-white p-6 rounded-lg max-w-md w-full"
                     >

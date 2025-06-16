@@ -1,7 +1,12 @@
 import React from 'react';
 import useAuth from '../Hooks/useAuth';
+import Swal  from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 const Register = () => {
     const { createUser } = useAuth();
+
+    const navigate = useNavigate();
+
 
     const handleRegister = (e) => {
         e.preventDefault();
@@ -12,12 +17,21 @@ const Register = () => {
 
         createUser(email, password, name)
             .then(() => {
-                alert("Registration successful!");
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Registration Successful",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                // Navigate after a small delay to show the alert
+                setTimeout(() => navigate('/'), 1500);
             })
             .catch(err => {
                 console.error("Error:", err);
             });
     };
+
 
     return (
         <div className="max-w-md mx-auto mt-16 p-6 bg-white border border-gray-300 rounded-lg shadow-md">
