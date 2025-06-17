@@ -15,7 +15,6 @@ const Register = () => {
         const name = form.name.value.trim();
         const email = form.email.value.trim();
         const password = form.password.value;
-        const photo = form.photo.value;
 
         // Custom Field Validation
         if (!name || !email || !password) {
@@ -111,7 +110,7 @@ const Register = () => {
                     <input type="email" name="email" className="w-full border px-3 py-2 rounded" />
                 </div>
                 <div>
-                    <label className="label">PhotoURL</label>
+                    <label className="block font-medium mb-1">PhotoURL</label>
                     <input type="text" className="w-full border px-3 py-2 rounded" name='photo' placeholder="PhotoURL" required />
                 </div>
                 <div>

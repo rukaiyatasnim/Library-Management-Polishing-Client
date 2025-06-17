@@ -19,8 +19,14 @@ const AddBook = () => {
             rating: parseFloat(form.rating.value),
         };
 
+        const token = localStorage.getItem("access-token");
+
         axios
-            .post("http://localhost:3000/books/", newBook)
+            .post("http://localhost:3000/books/", newBook, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
             .then((res) => {
                 if (res.data.insertedId) {
                     Swal.fire({
@@ -28,7 +34,7 @@ const AddBook = () => {
                         icon: "success",
                         title: "Your Book has been Added",
                         showConfirmButton: false,
-                        timer: 1500
+                        timer: 1500,
                     });
                     setTimeout(() => {
                         navigate("/allBooks");
@@ -50,7 +56,7 @@ const AddBook = () => {
                 });
             });
     };
-
+      
     return (
         <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
             <h2 className="text-3xl font-bold mb-6 text-center">Add a New Book</h2>

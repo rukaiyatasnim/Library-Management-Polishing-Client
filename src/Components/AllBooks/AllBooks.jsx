@@ -14,8 +14,28 @@ const AllBooks = () => {
     }, []);
 
     const fetchBooks = async () => {
+        const token = localStorage.getItem("access-token");
+
+        if (!token) {
+            Swal.fire("Unauthorized", "Please login first", "warning");
+            navigate("/login");
+            return;
+        }
+
         try {
-            const res = await fetch("http://localhost:3000/books");
+            const res = await fetch("http://localhost:3000/books", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (res.status === 401) {
+                Swal.fire("Unauthorized", "Session expired. Please login again.", "warning");
+                localStorage.removeItem("access-token");
+                navigate("/login");
+                return;
+            }
+
             const data = await res.json();
             setBooks(data.reverse());
         } catch (err) {
@@ -104,16 +124,14 @@ const AllBooks = () => {
                                         >
                                             Update
                                         </button>
-
-                                </td>
+                                    </td>
                                 </tr>
                             ))}
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
                 </div>
-    )
-}
-        </div >
+            )}
+        </div>
     );
 };
 

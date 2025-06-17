@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../Contexts/AuthContext/AuthContext";
 import Swal from "sweetalert2";
@@ -105,7 +105,7 @@ const Navbar = () => {
                                 className="w-10 h-10 rounded-full cursor-pointer"
                             />
                             <div className="absolute top-12 text-xs bg-black text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                                {user.displayName || "No Name"}
+                                {user.displayName}
                             </div>
                         </div>
 

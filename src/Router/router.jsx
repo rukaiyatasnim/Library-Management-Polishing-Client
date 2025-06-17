@@ -1,12 +1,12 @@
-import { createBrowserRouter } from "react-router";
-import RootLayout from './../layouts/RootLayout';
-import Home from '../Components/Home/Home';
+import { createBrowserRouter } from "react-router-dom"; 
+import RootLayout from "../layouts/RootLayout";
+import Home from "../Components/Home/Home";
 import Error from "../Pages/Error/Error";
 import Register from "../Pages/Register";
 import SignIn from "../Pages/SignIn";
 import AddBook from "../Components/AddBook/AddBook";
 import AllBooks from "../Components/AllBooks/AllBooks";
-import BookDetails from './../Components/BookDetails/BookDetails';
+import BookDetails from "../Components/BookDetails/BookDetails";
 import PrivateRoute from "../Routes/PrivateRoute";
 import Borrow from "../Components/BookDetails/Borrow";
 import BorrowedBooks from "../Pages/BorrowedBooks/BorrowedBooks";
@@ -21,7 +21,7 @@ export const router = createBrowserRouter([
             { index: true, element: <Home /> },
             { path: "allBooks", element: <PrivateRoute><AllBooks /></PrivateRoute> },
             {
-                path: "/books/:id",
+                path: "books/:id",
                 element: <BookDetails />,
                 loader: ({ params }) =>
                     fetch(`http://localhost:3000/books/${params.id}`).then(res => res.json()),
