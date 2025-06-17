@@ -1,9 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { AuthContext } from '../Contexts/AuthContext/AuthContext';
+import { FaEyeSlash, FaRegEye } from "react-icons/fa";
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const SignIn = () => {
+    const [showPassword, setShowPassWord] = useState(false);
+
     const { signInUser, googleSignIn } = useContext(AuthContext);
     const location = useLocation();
     const navigate = useNavigate();
@@ -54,7 +57,11 @@ const SignIn = () => {
                             <label className="label">Email</label>
                             <input type="email" name="email" className="input" placeholder="Email" required />
                             <label className="label">Password</label>
-                            <input type="password" name="password" className="input" placeholder="Password" required />
+                            <input type={showPassword ? 'text' : 'password'} className="input" placeholder="Password" name='password' required />
+                            <button type="button" onClick={() => setShowPassWord(!showPassword)} className='btn btn-xs absolute top-47 right-8'>
+                                {showPassword ? <FaEyeSlash /> : <FaRegEye />}
+                            </button>
+
                             <div>
                                 <a className="link link-hover">Don't Have An Account?</a>
                                 <NavLink className="text-red-600" to="/register"> Register Here</NavLink>

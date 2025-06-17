@@ -47,10 +47,10 @@ const AuthProvider = ({ children }) => {
     const authInfo = {
         loading,
         user,
+        googleSignIn,
         createUser,
         signInUser,
         signOutUser,
-        googleSignIn
 
     };
 

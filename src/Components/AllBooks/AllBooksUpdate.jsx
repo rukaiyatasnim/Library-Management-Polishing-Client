@@ -44,9 +44,12 @@ const AllBooksUpdate = () => {
         e.preventDefault();
         setUpdating(true);
         try {
-            await axios.patch(`http://localhost:3000/books/${id}`, formData);
+            const { _id, ...fieldsToUpdate } = formData;
+
+            await axios.patch(`http://localhost:3000/books/${id}`, fieldsToUpdate);
+
             Swal.fire("Updated", "Book updated successfully", "success");
-            navigate("/all-books");
+            navigate("/allBooks");
         } catch (error) {
             console.error(error);
             Swal.fire("Error", "Update failed", "error");

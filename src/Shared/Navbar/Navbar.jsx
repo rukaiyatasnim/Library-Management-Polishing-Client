@@ -5,17 +5,18 @@ import Swal from "sweetalert2";
 
 const Navbar = () => {
     const { user, signOutUser } = useContext(AuthContext);
-    const [showTooltip, setShowTooltip] = useState(false);
 
     const handleSignOut = () => {
         signOutUser()
-            .then(() => Swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: "Logut Successfull",
-                showConfirmButton: false,
-                timer: 1500
-            }))
+            .then(() =>
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Logout Successful",
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            )
             .catch((err) => console.log(err));
     };
 
@@ -43,18 +44,10 @@ const Navbar = () => {
                         tabIndex={0}
                         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
                     >
-                        <li>
-                            <Link to="/">Home</Link>
-                        </li>
-                        <li>
-                            <Link to="/allBooks">All Books</Link>
-                        </li>
-                        <li>
-                            <Link to="/addBook">Add Book</Link>
-                        </li>
-                        <li>
-                            <Link to="/borrowedBooks">Borrowed Books</Link>
-                        </li>
+                        <li><Link to="/">Home</Link></li>
+                        <li><Link to="/allBooks">All Books</Link></li>
+                        <li><Link to="/addBook">Add Book</Link></li>
+                        <li><Link to="/borrowedBooks">Borrowed Books</Link></li>
                     </ul>
                 </div>
                 <Link to="/" className="btn btn-ghost text-xl">
@@ -102,25 +95,24 @@ const Navbar = () => {
             <div className="navbar-end flex items-center space-x-3">
                 {user ? (
                     <>
-                        <div
-                            className="relative"
-                            onMouseEnter={() => setShowTooltip(true)}
-                            onMouseLeave={() => setShowTooltip(false)}
-                        >
+                        <div className="relative flex flex-col items-center group">
                             <img
-                                src={user.photoURL || "https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg"}
-                                alt="User Avatar"
+                                src={
+                                    user.photoURL ||
+                                    "https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg"
+                                }
+                                alt={user.displayName || "User Avatar"}
                                 className="w-10 h-10 rounded-full cursor-pointer"
-                                title={user.displayName}
                             />
-
-                            {showTooltip && (
-                                <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-gray-800 px-2 py-1 text-xs text-white shadow-lg">
-                                    {user.displayName}
-                                </div>
-                            )}
+                            <div className="absolute top-12 text-xs bg-black text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                                {user.displayName || "No Name"}
+                            </div>
                         </div>
-                        <button onClick={handleSignOut} className="btn btn-outline btn-error text-black">
+
+                        <button
+                            onClick={handleSignOut}
+                            className="btn btn-outline btn-error text-black"
+                        >
                             Sign Out
                         </button>
                     </>

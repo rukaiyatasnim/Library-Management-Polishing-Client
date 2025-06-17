@@ -1,8 +1,11 @@
 import axios from "axios";
 import React from "react";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom"; 
 
 const AddBook = () => {
+    const navigate = useNavigate(); 
+
     const handleAddBook = (e) => {
         e.preventDefault();
         const form = e.target;
@@ -15,7 +18,6 @@ const AddBook = () => {
             shortDescription: form.shortDescription.value,
             rating: parseFloat(form.rating.value),
         };
-        console.log(newBook);
 
         axios
             .post("http://localhost:3000/books/", newBook)
@@ -28,6 +30,9 @@ const AddBook = () => {
                         showConfirmButton: false,
                         timer: 1500
                     });
+                    setTimeout(() => {
+                        navigate("/allBooks");
+                    }, 1600);
                 }
             })
             .catch((err) => {
@@ -39,8 +44,8 @@ const AddBook = () => {
                     showConfirmButton: false,
                     timer: 1500,
                     toast: true,
-                    background: "#f87171", // red shade bg
-                    color: "#7f1d1d", // dark red text
+                    background: "#f87171",
+                    color: "#7f1d1d",
                     iconColor: "#7f1d1d",
                 });
             });

@@ -1,20 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useAuth from '../Hooks/useAuth';
 import Swal from 'sweetalert2';
+import { FaEyeSlash, FaRegEye } from "react-icons/fa";
 import { NavLink, useNavigate } from 'react-router-dom';
 
 const Register = () => {
     const { createUser, googleSignIn } = useAuth();
+    const [showPassword, setShowPassWord] = useState(false);
     const navigate = useNavigate();
 
     const handleRegister = (e) => {
         e.preventDefault();
         const form = e.target;
-        const name = form.name.value;
-        const email = form.email.value;
+        const name = form.name.value.trim();
+        const email = form.email.value.trim();
         const password = form.password.value;
+        const photo = form.photo.value;
 
-        // Password Validation
+        // Custom Field Validation
+        if (!name || !email || !password) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Missing Fields',
+                text: 'Please fill in all required fields (name, email, password).',
+            });
+            return;
+        }
+
+        // Password Strength Validation
         const hasUppercase = /[A-Z]/.test(password);
         const hasLowercase = /[a-z]/.test(password);
         const isLongEnough = password.length >= 6;
@@ -25,7 +38,7 @@ const Register = () => {
                 title: 'Weak Password',
                 text: 'Password must be at least 6 characters and contain both uppercase and lowercase letters.',
             });
-            return; // Stop submission
+            return;
         }
 
         createUser(email, password)
@@ -63,7 +76,6 @@ const Register = () => {
             });
     };
 
-
     const handleGoogleSignUp = () => {
         googleSignIn()
             .then(() => {
@@ -92,16 +104,35 @@ const Register = () => {
             <form onSubmit={handleRegister} className="space-y-4">
                 <div>
                     <label className="block font-medium mb-1">Name</label>
-                    <input type="text" name="name" className="w-full border px-3 py-2 rounded" required />
+                    <input type="text" name="name" className="w-full border px-3 py-2 rounded" />
                 </div>
                 <div>
                     <label className="block font-medium mb-1">Email</label>
-                    <input type="email" name="email" className="w-full border px-3 py-2 rounded" required />
+                    <input type="email" name="email" className="w-full border px-3 py-2 rounded" />
+                </div>
+                <div>
+                    <label className="label">PhotoURL</label>
+                    <input type="text" className="w-full border px-3 py-2 rounded" name='photo' placeholder="PhotoURL" required />
                 </div>
                 <div>
                     <label className="block font-medium mb-1">Password</label>
-                    <input type="password" name="password" className="w-full border px-3 py-2 rounded" required />
+                    <div className="relative">
+                        <input
+                            type={showPassword ? 'text' : 'password'}
+                            className="w-full border px-3 py-2 rounded pr-10"
+                            placeholder="Password"
+                            name='password'
+                        />
+                        <button
+                            type="button"
+                            onClick={() => setShowPassWord(!showPassword)}
+                            className='absolute right-3 top-1/2 -translate-y-1/2 text-xl'
+                        >
+                            {showPassword ? <FaEyeSlash /> : <FaRegEye />}
+                        </button>
+                    </div>
                 </div>
+
                 <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
                     Register
                 </button>
