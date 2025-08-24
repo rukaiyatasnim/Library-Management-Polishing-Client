@@ -11,7 +11,7 @@ const Category = () => {
 
     useEffect(() => {
         axios
-            .get("http://localhost:3000/books")
+            .get("https://library-server-side-puce.vercel.app/books")
             .then((res) => {
                 const allBooks = res.data;
                 const uniqueCategories = Array.from(

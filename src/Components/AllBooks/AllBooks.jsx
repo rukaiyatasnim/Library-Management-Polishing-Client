@@ -23,7 +23,7 @@ const AllBooks = () => {
         }
 
         try {
-            const res = await fetch("http://localhost:3000/books", {
+            const res = await fetch("https://library-server-side-puce.vercel.app/books", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

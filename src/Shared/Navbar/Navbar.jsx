@@ -4,131 +4,174 @@ import { AuthContext } from "../../Contexts/AuthContext/AuthContext";
 import Swal from "sweetalert2";
 
 const Navbar = () => {
-    const { user, signOutUser } = useContext(AuthContext);
+  const { user, signOutUser } = useContext(AuthContext);
 
-    const handleSignOut = () => {
-        signOutUser()
-            .then(() =>
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: "Logout Successful",
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-            )
-            .catch((err) => console.log(err));
-    };
+  const handleSignOut = () => {
+    signOutUser()
+      .then(() =>
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Logout Successful",
+          showConfirmButton: false,
+          timer: 1500,
+        })
+      )
+      .catch((err) => console.log(err));
+  };
 
-    return (
-        <div className="navbar bg-base-100 shadow-sm">
-            <div className="navbar-start">
-                <div className="dropdown">
-                    <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M4 6h16M4 12h8m-8 6h16"
-                            />
-                        </svg>
-                    </div>
-                    <ul
-                        tabIndex={0}
-                        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
-                    >
-                        <li><Link to="/">Home</Link></li>
-                        <li><Link to="/allBooks">All Books</Link></li>
-                        <li><Link to="/addBook">Add Book</Link></li>
-                        <li><Link to="/borrowedBooks">Borrowed Books</Link></li>
-                    </ul>
+  return (
+    <>
+      <nav className="bg-gradient-to-r from-blue-500 via-sky-500 to-blue-600 text-white w-full fixed top-0 z-50 shadow-md h-16">
+        <div className="max-w-7xl mx-auto px-4 flex justify-between items-center h-full">
+          {/* Logo */}
+          <Link to="/" className="text-2xl font-bold">
+            BookiQ
+          </Link>
+
+          {/* Desktop Links */}
+          <ul className="hidden lg:flex space-x-6">
+            <li>
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  isActive ? "underline font-bold" : ""
+                }
+              >
+                Home
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/allBooks"
+                className={({ isActive }) =>
+                  isActive ? "underline font-bold" : ""
+                }
+              >
+                All Books
+              </NavLink>
+            </li>
+            {user && (
+              <>
+                <li>
+                  <NavLink
+                    to="/addBook"
+                    className={({ isActive }) =>
+                      isActive ? "underline font-bold" : ""
+                    }
+                  >
+                    Add Book
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/borrowedBooks"
+                    className={({ isActive }) =>
+                      isActive ? "underline font-bold" : ""
+                    }
+                  >
+                    Borrowed Books
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/profile"
+                    className={({ isActive }) =>
+                      isActive ? "underline font-bold" : ""
+                    }
+                  >
+                    Profile
+                  </NavLink>
+                </li>
+              </>
+            )}
+          </ul>
+
+          {/* Auth Buttons */}
+          <div className="flex items-center space-x-3">
+            {user ? (
+              <>
+                <div className="relative flex flex-col items-center group">
+                  <img
+                    src={
+                      user.photoURL ||
+                      "https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg"
+                    }
+                    alt={user.displayName || "User Avatar"}
+                    className="w-10 h-10 rounded-full cursor-pointer border-2 border-white shadow-md"
+                  />
+                  <div className="absolute top-12 text-xs bg-blue-800 text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                    {user.displayName}
+                  </div>
                 </div>
-                <Link to="/" className="btn btn-ghost text-xl">
-                    BookiQ
-                </Link>
-            </div>
 
-            <div className="navbar-center hidden lg:flex">
-                <ul className="menu menu-horizontal px-1">
-                    <li>
-                        <NavLink
-                            to="/"
-                            className={({ isActive }) => (isActive ? "text-blue-500 font-bold" : "")}
-                        >
-                            Home
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            to="/allBooks"
-                            className={({ isActive }) => (isActive ? "text-blue-500 font-bold" : "")}
-                        >
-                            All Books
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            to="/addBook"
-                            className={({ isActive }) => (isActive ? "text-blue-500 font-bold" : "")}
-                        >
-                            Add Book
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            to="/borrowedBooks"
-                            className={({ isActive }) => (isActive ? "text-blue-500 font-bold" : "")}
-                        >
-                            Borrowed Books
-                        </NavLink>
-                    </li>
-                </ul>
-            </div>
+                <button
+                  onClick={handleSignOut}
+                  className="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 px-4 py-2 rounded-lg text-white font-semibold shadow-md transition-all"
+                >
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <>
+                <NavLink
+                  to="/signIn"
+                  className="bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 px-4 py-2 rounded-lg text-white font-semibold shadow-md transition-all"
+                >
+                  Login
+                </NavLink>
+                <NavLink
+                  to="/register"
+                  className="bg-gradient-to-r from-cyan-400 to-cyan-600 hover:from-cyan-500 hover:to-cyan-700 px-4 py-2 rounded-lg text-white font-semibold shadow-md transition-all"
+                >
+                  Sign Up
+                </NavLink>
+              </>
+            )}
+          </div>
 
-            <div className="navbar-end flex items-center space-x-3">
-                {user ? (
-                    <>
-                        <div className="relative flex flex-col items-center group">
-                            <img
-                                src={
-                                    user.photoURL ||
-                                    "https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg"
-                                }
-                                alt={user.displayName || "User Avatar"}
-                                className="w-10 h-10 rounded-full cursor-pointer"
-                            />
-                            <div className="absolute top-12 text-xs bg-black text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                                {user.displayName}
-                            </div>
-                        </div>
-
-                        <button
-                            onClick={handleSignOut}
-                            className="btn btn-outline btn-error text-black"
-                        >
-                            Sign Out
-                        </button>
-                    </>
-                ) : (
-                    <>
-                        <NavLink to="/signIn" className="btn">
-                            Login
-                        </NavLink>
-                        <NavLink to="/register" className="btn">
-                            Sign Up
-                        </NavLink>
-                    </>
-                )}
+          {/* Mobile Dropdown */}
+          <div className="lg:hidden">
+            <div className="dropdown dropdown-end">
+              <label tabIndex={0} className="btn btn-ghost">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                </svg>
+              </label>
+              <ul
+                tabIndex={0}
+                className="dropdown-content menu p-2 shadow bg-blue-600 rounded-box w-52 text-white"
+              >
+                <li>
+                  <Link to="/">Home</Link>
+                </li>
+                <li>
+                  <Link to="/allBooks">All Books</Link>
+                </li>
+                {user && <li><Link to="/addBook">Add Book</Link></li>}
+                {user && <li><Link to="/borrowedBooks">Borrowed Books</Link></li>}
+                {user && <li><Link to="/profile">Profile</Link></li>}
+              </ul>
             </div>
+          </div>
         </div>
-    );
+      </nav>
+
+      {/* Spacer to prevent content overlap */}
+      <div className="h-16"></div>
+    </>
+  );
 };
 
 export default Navbar;

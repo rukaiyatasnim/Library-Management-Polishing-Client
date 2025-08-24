@@ -9,7 +9,7 @@ const BookPage = () => {
 
     const fetchBooks = () => {
         setLoading(true);
-        fetch('http://localhost:3000/books')
+        fetch('https://library-server-side-puce.vercel.app/books')
             .then(res => res.json())
             .then(data => {
                 setBooks(data);

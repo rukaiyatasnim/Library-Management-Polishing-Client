@@ -23,7 +23,7 @@ const SignIn = () => {
             .then(async (result) => {
                 const loggedUser = result.user;
 
-                const { data } = await axios.post('http://localhost:3000/jwt', { email: loggedUser.email });
+                const { data } = await axios.post('https://library-server-side-puce.vercel.app/jwt', { email: loggedUser.email });
 
                 localStorage.setItem('access-token', data.token);
 
@@ -47,7 +47,7 @@ const SignIn = () => {
             .then(async (result) => {
                 const loggedUser = result.user;
 
-                const { data } = await axios.post('http://localhost:3000/jwt', { email: loggedUser.email });
+                const { data } = await axios.post('https://library-server-side-puce.vercel.app/jwt', { email: loggedUser.email });
 
                 localStorage.setItem('access-token', data.token);
 

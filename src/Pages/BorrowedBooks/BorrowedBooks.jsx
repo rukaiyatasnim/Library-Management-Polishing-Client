@@ -15,7 +15,7 @@ const BorrowedBooks = () => {
             try {
                 setLoading(true);
                 const res = await axios.get(
-                    `http://localhost:3000/borrowedBooks?email=${user.email}`
+                    `https://library-server-side-puce.vercel.app/borrowedBooks?email=${user.email}`
                 );
                 setBorrowedBooks(res.data);
             } catch (err) {
@@ -31,9 +31,9 @@ const BorrowedBooks = () => {
 
     const handleReturnBook = async (borrowedBookId, bookId) => {
         try {
-            await axios.patch(`http://localhost:3000/books/${bookId}/increment`);
+            await axios.patch(`https://library-server-side-puce.vercel.app/books/${bookId}/increment`);
 
-            await axios.delete(`http://localhost:3000/borrowedBooks/${borrowedBookId}`);
+            await axios.delete(`https://library-server-side-puce.vercel.app/borrowedBooks/${borrowedBookId}`);
 
             setBorrowedBooks((prevBooks) =>
                 prevBooks.filter((book) => book._id !== borrowedBookId)

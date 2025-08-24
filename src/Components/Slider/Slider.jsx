@@ -38,7 +38,8 @@ const slides = [
 ];
 
 const Slider = () => (
-    <div className="w-full mt-6 bg-cyan-100 dark:bg-cyan-900">
+    // Add pt-16 (or equal to your navbar height) to push slider below fixed navbar
+    <div className="w-full pt-16 bg-cyan-100 dark:bg-cyan-900">
         <Swiper
             modules={[Autoplay, Pagination]}
             spaceBetween={30}
@@ -60,7 +61,7 @@ const Slider = () => (
                             href={link}
                             className="bg-cyan-700 text-white px-5 py-2 rounded-full hover:bg-cyan-800 dark:hover:bg-cyan-600 transition"
                         >
-                            {btn}
+              F              {btn}
                         </a>
                     </div>
                 </SwiperSlide>

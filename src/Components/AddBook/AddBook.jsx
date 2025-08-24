@@ -1,10 +1,10 @@
 import axios from "axios";
 import React from "react";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 
 const AddBook = () => {
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
 
     const handleAddBook = (e) => {
         e.preventDefault();
@@ -22,7 +22,7 @@ const AddBook = () => {
         const token = localStorage.getItem("access-token");
 
         axios
-            .post("http://localhost:3000/books/", newBook, {
+            .post("https://library-server-side-puce.vercel.app/books/", newBook, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -56,7 +56,7 @@ const AddBook = () => {
                 });
             });
     };
-      
+
     return (
         <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
             <h2 className="text-3xl font-bold mb-6 text-center">Add a New Book</h2>

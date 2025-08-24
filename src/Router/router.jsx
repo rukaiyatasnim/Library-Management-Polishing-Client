@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom"; 
+import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "../layouts/RootLayout";
 import Home from "../Components/Home/Home";
 import Error from "../Pages/Error/Error";
@@ -24,13 +24,13 @@ export const router = createBrowserRouter([
                 path: "books/:id",
                 element: <BookDetails />,
                 loader: ({ params }) =>
-                    fetch(`http://localhost:3000/books/${params.id}`).then(res => res.json()),
+                    fetch(`https://library-server-side-puce.vercel.app/books/${params.id}`).then(res => res.json()),
             },
             {
                 path: "category/:name",
                 element: <CategoryBooks />,
                 loader: async ({ params }) => {
-                    const res = await fetch(`http://localhost:3000/books?category=${encodeURIComponent(params.name)}`);
+                    const res = await fetch(`https://library-server-side-puce.vercel.app/books?category=${encodeURIComponent(params.name)}`);
                     if (!res.ok) throw new Response("Failed to fetch", { status: res.status });
                     return res.json();
                 },

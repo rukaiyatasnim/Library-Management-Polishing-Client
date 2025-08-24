@@ -22,7 +22,7 @@ const AllBooksUpdate = () => {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:3000/books/${id}`)
+            .get(`https://library-server-side-puce.vercel.app/books/${id}`)
             .then((res) => {
                 setFormData(res.data);
             })
@@ -46,7 +46,7 @@ const AllBooksUpdate = () => {
         try {
             const { _id, ...fieldsToUpdate } = formData;
 
-            await axios.patch(`http://localhost:3000/books/${id}`, fieldsToUpdate);
+            await axios.patch(`https://library-server-side-puce.vercel.app/books/${id}`, fieldsToUpdate);
 
             Swal.fire("Updated", "Book updated successfully", "success");
             navigate("/allBooks");

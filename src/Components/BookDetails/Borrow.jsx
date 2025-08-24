@@ -17,7 +17,7 @@ const Borrow = () => {
 
     // Fetch book info including quantity
     useEffect(() => {
-        axios.get(`http://localhost:3000/books/${bookId}`)
+        axios.get(`https://library-server-side-puce.vercel.app/books/${bookId}`)
             .then(res => setBook(res.data))
             .catch(err => {
                 console.error("Failed to fetch book:", err);
@@ -45,7 +45,7 @@ const Borrow = () => {
         }
 
         try {
-            const checkRes = await axios.get("http://localhost:3000/borrowedBooks/check", {
+            const checkRes = await axios.get("https://library-server-side-puce.vercel.app/borrowedBooks/check", {
                 params: { userEmail: user.email, bookId },
             });
 
@@ -67,7 +67,7 @@ const Borrow = () => {
                 returnDate,
             };
 
-            const res = await axios.post("http://localhost:3000/borrowedBooks", borrowedBook);
+            const res = await axios.post("https://library-server-side-puce.vercel.app/borrowedBooks", borrowedBook);
 
             if (res.data.insertedId) {
                 Swal.fire({
