@@ -15,37 +15,10 @@ const AllBooks = () => {
     }, []);
 
     const fetchBooks = async () => {
-        const token = localStorage.getItem("access-token");
-
-        if (!token) {
-            Swal.fire("Unauthorized", "Please login first", "warning");
-            navigate("/login");
-            return;
-        }
-
         try {
-            const res = await fetch(
-                "https://library-server-side-puce.vercel.app/books",
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-
-            if (res.status === 401) {
-                Swal.fire(
-                    "Unauthorized",
-                    "Session expired. Please login again.",
-                    "warning"
-                );
-                localStorage.removeItem("access-token");
-                navigate("/login");
-                return;
-            }
-
+            const res = await fetch("https://library-server-side-puce.vercel.app/books");
             const data = await res.json();
-            setBooks(data.reverse());
+            setBooks(data.reverse()); // newest first
         } catch (err) {
             console.error(err);
             Swal.fire("Error", "Failed to fetch books", "error");

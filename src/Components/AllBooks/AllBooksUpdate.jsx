@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
+import Loader from "../Loader/Loader";
 
 const AllBooksUpdate = () => {
     const { id } = useParams();
@@ -13,7 +14,7 @@ const AllBooksUpdate = () => {
         category: "",
         quantity: 0,
         rating: 0,
-        price: 0, // added price
+        price: 0,
         shortDescription: "",
         image: "",
     });
@@ -22,19 +23,43 @@ const AllBooksUpdate = () => {
     const [updating, setUpdating] = useState(false);
 
     useEffect(() => {
-        axios
-            .get(`https://library-server-side-puce.vercel.app/books/${id}`)
-            .then((res) => {
+        const fetchBook = async () => {
+            try {
+                setLoading(true);
+
+                // Fetch all books from backend
+                const res = await axios.get(
+                    "https://library-server-side-puce.vercel.app/books"
+                );
+
+                // Find the book by ID
+                const book = res.data.find((b) => b._id === id);
+
+                if (!book) {
+                    Swal.fire("Error", "Book not found", "error");
+                    navigate("/allBooks");
+                    return;
+                }
+
                 setFormData({
-                    ...res.data,
-                    price: res.data.price || 0, // ensure price is not undefined
+                    ...book,
+                    price: book.price || 0,
                 });
-            })
-            .catch(() => {
-                Swal.fire("Error", "Failed to load book", "error");
-            })
-            .finally(() => setLoading(false));
-    }, [id]);
+            } catch (err) {
+                console.error("Failed to fetch book:", err);
+                Swal.fire(
+                    "Error",
+                    err.response?.data?.message || "Failed to fetch book",
+                    "error"
+                );
+                navigate("/allBooks");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchBook();
+    }, [id, navigate]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -68,11 +93,7 @@ const AllBooksUpdate = () => {
     };
 
     if (loading)
-        return (
-            <p className="text-center mt-10 text-gray-600">
-                Loading book details...
-            </p>
-        );
+        return <Loader></Loader>
 
     return (
         <div className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-md border border-gray-200">

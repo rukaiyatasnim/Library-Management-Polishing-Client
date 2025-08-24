@@ -1,115 +1,97 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import useAuth from "../../Hooks/useAuth";
-import Loader from "../../Components/Loader/Loader";
+import Swal from "sweetalert2";
 
 const BorrowedBooks = () => {
     const { user } = useAuth();
     const [borrowedBooks, setBorrowedBooks] = useState([]);
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (!user?.email) return;
-
-        const fetchBorrowedBooks = async () => {
-            try {
-                setLoading(true);
-                const res = await axios.get(
-                    `https://library-server-side-puce.vercel.app/borrowedBooks?email=${user.email}`
-                );
-                setBorrowedBooks(res.data);
-            } catch (err) {
-                console.error("Failed to fetch borrowed books", err);
-                setBorrowedBooks([]);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchBorrowedBooks();
+        if (!user) return;
+        const stored = localStorage.getItem(`borrowedBooks_${user.email}`);
+        if (stored) setBorrowedBooks(JSON.parse(stored));
     }, [user]);
 
-    const handleReturnBook = async (borrowedBookId, bookId) => {
-        try {
-            await axios.patch(`https://library-server-side-puce.vercel.app/books/${bookId}/increment`);
-
-            await axios.delete(`https://library-server-side-puce.vercel.app/borrowedBooks/${borrowedBookId}`);
-
-            setBorrowedBooks((prevBooks) =>
-                prevBooks.filter((book) => book._id !== borrowedBookId)
+    useEffect(() => {
+        if (user)
+            localStorage.setItem(
+                `borrowedBooks_${user.email}`,
+                JSON.stringify(borrowedBooks)
             );
-        } catch (error) {
-            console.error("Failed to return book:", error);
-        }
+    }, [borrowedBooks, user]);
+
+    const handleReturnBook = (bookId) => {
+        setBorrowedBooks((prev) => prev.filter((b) => b.id !== bookId));
+        Swal.fire({
+            icon: "success",
+            title: "Book returned successfully",
+            timer: 1500,
+            showConfirmButton: false,
+            toast: true,
+        });
     };
 
-    if (loading)
-        return (
-            <div className="text-center mt-10">
-                <Loader />
-            </div>
-        );
+    if (!user) return <p className="text-center mt-20">Please log in</p>;
 
-    if (borrowedBooks.length === 0)
+    if (!borrowedBooks.length)
         return (
             <div className="flex flex-col items-center justify-center mt-20 text-gray-600">
                 <img
                     src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png"
                     alt="No borrowed books"
-                    className="w-40 h-40 mb-4 opacity-50"
+                    className="w-40 h-40 mb-6 opacity-50"
                 />
-                <p className="text-xl font-semibold">
+                <p className="text-2xl font-semibold mb-2">
                     You have no borrowed books currently.
                 </p>
-                <p className="mt-2 text-center max-w-sm">
+                <p className="text-center text-gray-500 max-w-md">
                     Browse our collection and borrow your favorite books to get started!
                 </p>
             </div>
         );
 
     return (
-        <div className="max-w-4xl mx-auto mt-10 p-6 bg-white rounded shadow">
-            <h2 className="text-2xl font-bold mb-6 text-center text-blue-700">
+        <div className="max-w-6xl mx-auto mt-12 px-4">
+            <h2 className="text-3xl font-bold mb-8 text-center text-blue-700 border-b-4 border-blue-300 pb-3">
                 Your Borrowed Books
             </h2>
 
-            <div className="grid md:grid-cols-2 gap-6">
-                {borrowedBooks.map((borrowedBook) => {
-                    const book = borrowedBook.bookDetails || {};
-                    return (
-                        <div
-                            key={borrowedBook._id}
-                            className="border p-4 rounded shadow flex flex-col"
-                        >
-                            <img
-                                src={book.image || "https://via.placeholder.com/150"}
-                                alt={book.title || "Book Cover"}
-                                className="w-full h-64 object-cover mb-4 rounded"
-                            />
-
+            <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {borrowedBooks.map((book) => (
+                    <div
+                        key={book.id}
+                        className="bg-white rounded-xl shadow-lg border border-blue-100 overflow-hidden hover:shadow-2xl transition-shadow duration-300 flex flex-col"
+                    >
+                        <img
+                            src={book.image || "https://via.placeholder.com/150"}
+                            alt={book.name}
+                            className="w-full h-64 object-cover"
+                        />
+                        <div className="p-5 flex flex-col flex-1">
+                            <h3 className="text-xl font-semibold mb-2 text-gray-800">
+                                {book.name}
+                            </h3>
                             <p className="text-gray-600 mb-1">
-                                <strong>Category:</strong> {book.category || "Unknown"}
+                                <strong>Category:</strong> {book.category}
                             </p>
                             <p className="text-gray-600 mb-1">
                                 <strong>Borrowed:</strong>{" "}
-                                {new Date(borrowedBook.borrowedDate).toLocaleDateString()}
+                                {new Date(book.borrowedDate).toLocaleDateString()}
                             </p>
-                            <p className="text-gray-600 mb-3">
+                            <p className="text-gray-600 mb-4">
                                 <strong>Return by:</strong>{" "}
-                                {new Date(borrowedBook.returnDate).toLocaleDateString()}
+                                {new Date(book.returnDate).toLocaleDateString()}
                             </p>
 
                             <button
-                                onClick={() =>
-                                    handleReturnBook(borrowedBook._id, borrowedBook.bookId)
-                                }
-                                className="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700"
+                                onClick={() => handleReturnBook(book.id)}
+                                className="mt-auto px-5 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition"
                             >
                                 Return Book
                             </button>
                         </div>
-                    );
-                })}
+                    </div>
+                ))}
             </div>
         </div>
     );

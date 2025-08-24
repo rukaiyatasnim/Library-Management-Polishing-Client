@@ -1,16 +1,27 @@
-import React from "react";
-import { useLoaderData, useParams, Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const CategoryBooks = () => {
-    const books = useLoaderData();
     const { name } = useParams();
+    const [books, setBooks] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
-    if (!books.length)
-        return (
-            <p className="text-center mt-10">
-                No books found in category "<strong>{name}</strong>"
-            </p>
-        );
+    useEffect(() => {
+        const categoryName = encodeURIComponent(name);
+        axios
+            .get(`https://library-server-side-puce.vercel.app/books?category=${categoryName}`)
+            .then((res) => setBooks(res.data))
+            .catch((err) => {
+                console.error("Failed to fetch books:", err);
+                setBooks([]);
+            })
+            .finally(() => setLoading(false));
+    }, [name]);
+
+    if (loading) return <p className="text-center mt-10">Loading books...</p>;
+    if (!books.length) return <p className="text-center mt-10">No books found in "{name}"</p>;
 
     return (
         <section className="max-w-6xl mx-auto px-4 py-12">
@@ -20,40 +31,32 @@ const CategoryBooks = () => {
 
             <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 {books.map((book) => (
-                    <Link
-                        to={`/books/${book._id}`}
+                    <div
                         key={book._id}
                         className="border rounded-lg shadow hover:shadow-lg transition duration-300 bg-white flex flex-col"
                     >
                         <img
                             src={book.image}
                             alt={book.name}
-                            className="w-full h-48 object-cover"
+                            className="w-full h-48 object-cover rounded-t"
                             loading="lazy"
                         />
-
-                        <div className="p-4 flex flex-col">
-                            {/* Full Title */}
+                        <div className="p-4 flex flex-col flex-1">
                             <h3 className="text-lg font-semibold">{book.name}</h3>
-
-                            {/* Author & Info */}
                             <p className="text-sm text-gray-600">By {book.author}</p>
-                            <p className="text-sm text-gray-600">Category: {book.category}</p>
                             <p className="text-sm text-gray-600">Quantity: {book.quantity}</p>
+                            <p className="mt-2 text-gray-700 text-sm">{book.shortDescription}</p>
 
-                            {/* FULL Description (no line-clamp) */}
-                            <p className="mt-2 text-gray-700 text-sm">
-                                {book.shortDescription}
-                            </p>
-
-                            {/* Button */}
-                            <div className="mt-4">
-                                <button className="btn btn-sm w-full text-white bg-blue-800">
-                                    See More
-                                </button>
-                            </div>
+                            <button
+                                onClick={() => navigate(`/borrow/${book._id}`)}
+                                className={`mt-auto w-full px-3 py-2 rounded text-white mt-4 ${book.quantity > 0 ? "bg-blue-700 hover:bg-blue-800" : "bg-gray-400 cursor-not-allowed"
+                                    }`}
+                                disabled={book.quantity === 0}
+                            >
+                                {book.quantity > 0 ? "Borrow this Book" : "Out of Stock"}
+                            </button>
                         </div>
-                    </Link>
+                    </div>
                 ))}
             </div>
         </section>

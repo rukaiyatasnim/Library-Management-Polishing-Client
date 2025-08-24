@@ -15,16 +15,29 @@ const Borrow = () => {
     const [loading, setLoading] = useState(false);
     const [book, setBook] = useState(null);
 
-    // Fetch book info including quantity
+    // Fetch the book by ID
     useEffect(() => {
-        axios.get(`https://library-server-side-puce.vercel.app/books/${bookId}`)
-            .then(res => setBook(res.data))
-            .catch(err => {
-                console.error("Failed to fetch book:", err);
+        axios
+            .get("https://library-server-side-puce.vercel.app/books")
+            .then((res) => {
+                const foundBook = res.data.find((b) => b._id === bookId);
+                if (!foundBook) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Book Not Found",
+                        text: "The selected book does not exist.",
+                    });
+                    navigate("/");
+                } else {
+                    setBook(foundBook);
+                }
+            })
+            .catch((err) => {
+                console.error("Failed to fetch books:", err);
                 Swal.fire({
                     icon: "error",
-                    title: "Book Not Found",
-                    text: "The selected book does not exist.",
+                    title: "Error",
+                    text: "Failed to fetch books from server.",
                 });
                 navigate("/");
             });
@@ -34,7 +47,7 @@ const Borrow = () => {
         e.preventDefault();
         setLoading(true);
 
-        if (book?.quantity <= 0) {
+        if (!book || book.quantity <= 0) {
             Swal.fire({
                 icon: "warning",
                 title: "Not Available",
@@ -44,60 +57,33 @@ const Borrow = () => {
             return;
         }
 
-        try {
-            const checkRes = await axios.get("https://library-server-side-puce.vercel.app/borrowedBooks/check", {
-                params: { userEmail: user.email, bookId },
-            });
+        // --- FRONTEND-ONLY SIMULATION ---
+        // Decrease quantity in frontend
+        setBook({ ...book, quantity: book.quantity - 1 });
 
-            if (!checkRes.data.canBorrow) {
-                Swal.fire({
-                    icon: "warning",
-                    title: "You already borrowed this book",
-                    text: "Please return it before borrowing again.",
-                });
-                setLoading(false);
-                return;
-            }
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: `You borrowed "${book.name}" successfully!`,
+            showConfirmButton: false,
+            timer: 1500,
+        });
 
-            const borrowedBook = {
-                bookId,
-                userName: user?.name || "Unknown",
-                userEmail: user?.email || "unknown@example.com",
-                borrowedDate,
-                returnDate,
-            };
+        setLoading(false);
 
-            const res = await axios.post("https://library-server-side-puce.vercel.app/borrowedBooks", borrowedBook);
-
-            if (res.data.insertedId) {
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: "Successfully Borrowed",
-                    showConfirmButton: false,
-                    timer: 1500,
-                });
-                setTimeout(() => navigate("/borrowedBooks"), 1500);
-            }
-        } catch (err) {
-            console.error("Error borrowing book:", err);
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Failed to borrow the book. Please try again.",
-            });
-        } finally {
-            setLoading(false);
-        }
+        setTimeout(() => navigate("/"), 1500); // navigate to home or borrowed books page
     };
 
     return (
         <div className="max-w-md mx-auto mt-16 p-6 bg-white border border-gray-200 rounded-xl shadow-md">
-            <h2 className="text-2xl font-bold mb-6 text-center text-blue-700">Borrow a Book</h2>
+            <h2 className="text-2xl font-bold mb-6 text-center text-blue-700">
+                Borrow a Book
+            </h2>
 
             {book && (
                 <p className="text-center mb-4 text-sm text-gray-700">
-                    <strong>Book:</strong> {book.name} | <strong>Available:</strong> {book.quantity}
+                    <strong>Book:</strong> {book.name} |{" "}
+                    <strong>Available:</strong> {book.quantity}
                 </p>
             )}
 
@@ -155,7 +141,10 @@ const Borrow = () => {
                     </button>
                     <button
                         type="submit"
-                        className={`px-4 py-2 rounded text-white ${book?.quantity <= 0 ? "bg-gray-500 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"}`}
+                        className={`px-4 py-2 rounded text-white ${book?.quantity <= 0
+                                ? "bg-gray-500 cursor-not-allowed"
+                                : "bg-blue-600 hover:bg-blue-700"
+                            }`}
                         disabled={loading || book?.quantity <= 0}
                     >
                         {loading ? "Borrowing..." : "Borrow"}

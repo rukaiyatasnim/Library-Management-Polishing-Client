@@ -6,9 +6,10 @@ import { useNavigate } from "react-router-dom";
 const AddBook = () => {
     const navigate = useNavigate();
 
-    const handleAddBook = (e) => {
+    const handleAddBook = async (e) => {
         e.preventDefault();
         const form = e.target;
+
         const newBook = {
             image: form.image.value,
             name: form.name.value,
@@ -17,45 +18,41 @@ const AddBook = () => {
             category: form.category.value,
             shortDescription: form.shortDescription.value,
             rating: parseFloat(form.rating.value),
-            price: parseFloat(form.price.value), // Added price
+            price: parseFloat(form.price.value),
         };
 
-        const token = localStorage.getItem("access-token");
+        try {
+            const res = await axios.post(
+                "https://library-server-side-puce.vercel.app/books",
+                newBook
+            );
 
-        axios
-            .post("https://library-server-side-puce.vercel.app/books/", newBook, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
-            .then((res) => {
-                if (res.data.insertedId) {
-                    Swal.fire({
-                        position: "top-end",
-                        icon: "success",
-                        title: "Your Book has been Added",
-                        showConfirmButton: false,
-                        timer: 1500,
-                    });
-                    setTimeout(() => {
-                        navigate("/allBooks");
-                    }, 1600);
-                }
-            })
-            .catch((err) => {
-                console.error(err);
+            if (res.data.insertedId) {
                 Swal.fire({
                     position: "top-end",
-                    icon: "error",
-                    title: "Failed to add book",
+                    icon: "success",
+                    title: "Book added successfully!",
                     showConfirmButton: false,
                     timer: 1500,
-                    toast: true,
-                    background: "#f87171",
-                    color: "#7f1d1d",
-                    iconColor: "#7f1d1d",
                 });
+                setTimeout(() => {
+                    navigate("/allBooks");
+                }, 1600);
+            }
+        } catch (err) {
+            console.error(err);
+            Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: "Failed to add book",
+                showConfirmButton: false,
+                timer: 1500,
+                toast: true,
+                background: "#f87171",
+                color: "#7f1d1d",
+                iconColor: "#7f1d1d",
             });
+        }
     };
 
     return (
@@ -67,48 +64,23 @@ const AddBook = () => {
             >
                 <div>
                     <label className="font-semibold">Image URL</label>
-                    <input
-                        type="text"
-                        name="image"
-                        className="input input-bordered w-full mt-1"
-                        required
-                    />
+                    <input type="text" name="image" className="input input-bordered w-full mt-1" required />
                 </div>
                 <div>
                     <label className="font-semibold">Book Name</label>
-                    <input
-                        type="text"
-                        name="name"
-                        className="input input-bordered w-full mt-1"
-                        required
-                    />
+                    <input type="text" name="name" className="input input-bordered w-full mt-1" required />
                 </div>
                 <div>
                     <label className="font-semibold">Quantity</label>
-                    <input
-                        type="number"
-                        name="quantity"
-                        className="input input-bordered w-full mt-1"
-                        min="1"
-                        required
-                    />
+                    <input type="number" name="quantity" className="input input-bordered w-full mt-1" min="1" required />
                 </div>
                 <div>
                     <label className="font-semibold">Author Name</label>
-                    <input
-                        type="text"
-                        name="author"
-                        className="input input-bordered w-full mt-1"
-                        required
-                    />
+                    <input type="text" name="author" className="input input-bordered w-full mt-1" required />
                 </div>
                 <div>
                     <label className="font-semibold">Category</label>
-                    <select
-                        name="category"
-                        className="select select-bordered w-full mt-1"
-                        required
-                    >
+                    <select name="category" className="select select-bordered w-full mt-1" required>
                         <option value="">Choose one</option>
                         <option value="Novel">Novel</option>
                         <option value="Thriller">Thriller</option>
@@ -119,40 +91,18 @@ const AddBook = () => {
                 </div>
                 <div>
                     <label className="font-semibold">Rating (1-5)</label>
-                    <input
-                        type="number"
-                        name="rating"
-                        className="input input-bordered w-full mt-1"
-                        min="1"
-                        max="5"
-                        step="0.1"
-                        required
-                    />
+                    <input type="number" name="rating" className="input input-bordered w-full mt-1" min="1" max="5" step="0.1" required />
                 </div>
                 <div>
                     <label className="font-semibold">Price</label>
-                    <input
-                        type="number"
-                        name="price"
-                        className="input input-bordered w-full mt-1"
-                        min="0"
-                        step="0.01"
-                        required
-                    />
+                    <input type="number" name="price" className="input input-bordered w-full mt-1" min="0" step="0.01" required />
                 </div>
                 <div className="md:col-span-2">
                     <label className="font-semibold">Short Description</label>
-                    <textarea
-                        name="shortDescription"
-                        className="textarea textarea-bordered w-full mt-1"
-                        rows="4"
-                        required
-                    ></textarea>
+                    <textarea name="shortDescription" className="textarea textarea-bordered w-full mt-1" rows="4" required></textarea>
                 </div>
                 <div className="md:col-span-2">
-                    <button type="submit" className="btn btn-primary w-full">
-                        Add Book
-                    </button>
+                    <button type="submit" className="btn btn-primary w-full">Add Book</button>
                 </div>
             </form>
         </div>
