@@ -3,6 +3,7 @@ import Slider from '../Slider/Slider';
 import Review from '../Review/Review';
 import Partner from '../Partner/Partner';
 import Category from './../BookCategory/Category';
+import FeedBack from '../../Shared/Feedback/Feedback';
 
 const Home = () => {
     return (
@@ -10,6 +11,7 @@ const Home = () => {
             <Slider></Slider>
             <Category></Category>
             <Partner></Partner>
+            <FeedBack></FeedBack>
             <Review></Review>
         </div>
     );
