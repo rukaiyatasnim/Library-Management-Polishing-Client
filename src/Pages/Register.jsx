@@ -9,139 +9,83 @@ const Register = () => {
     const [showPassword, setShowPassWord] = useState(false);
     const navigate = useNavigate();
 
-    const handleRegister = (e) => {
+    const handleRegister = async (e) => {
         e.preventDefault();
         const form = e.target;
         const name = form.name.value.trim();
         const email = form.email.value.trim();
         const password = form.password.value;
 
-        // Custom Field Validation
         if (!name || !email || !password) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Missing Fields',
-                text: 'Please fill in all required fields (name, email, password).',
-            });
+            Swal.fire({ icon: 'error', title: 'Missing Fields', text: 'Please fill all required fields.' });
             return;
         }
 
-        // Password Strength Validation
-        const hasUppercase = /[A-Z]/.test(password);
-        const hasLowercase = /[a-z]/.test(password);
-        const isLongEnough = password.length >= 6;
-
-        if (!hasUppercase || !hasLowercase || !isLongEnough) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Weak Password',
-                text: 'Password must be at least 6 characters and contain both uppercase and lowercase letters.',
-            });
+        if (!/[A-Z]/.test(password) || !/[a-z]/.test(password) || password.length < 6) {
+            Swal.fire({ icon: 'warning', title: 'Weak Password', text: 'Password must be 6+ characters with uppercase & lowercase letters.' });
             return;
         }
 
-        createUser(email, password)
-            .then(() => {
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: "Registration Successful",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-                setTimeout(() => navigate('/'), 1500);
-            })
-            .catch(err => {
-                if (err.code === 'auth/email-already-in-use') {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Email Already In Use',
-                        text: 'Please try logging in or use a different email.',
-                    });
-                } else if (err.code === 'auth/weak-password') {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Weak Password',
-                        text: 'Password should be at least 6 characters.',
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Registration Failed',
-                        text: err.message,
-                    });
-                }
-                console.error("Error:", err);
-            });
+        try {
+            await createUser(email, password);
+            Swal.fire({ position: "top-end", icon: "success", title: "Registered Successfully", showConfirmButton: false, timer: 1500 });
+            navigate('/');
+        } catch (err) {
+            Swal.fire({ icon: 'error', title: 'Registration Failed', text: err.message });
+        }
     };
 
     const handleGoogleSignUp = () => {
         googleSignIn()
             .then(() => {
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: "Google Login Successful",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
+                Swal.fire({ position: "top-end", icon: "success", title: "Google Sign Up Successful", showConfirmButton: false, timer: 1500 });
                 navigate('/');
             })
-            .catch(err => {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Google Sign In Failed',
-                    text: err.message
-                });
-                console.error(err);
-            });
+            .catch(err => Swal.fire({ icon: 'error', title: 'Google Sign Up Failed', text: err.message }));
     };
 
     return (
-        <div className="max-w-md mx-auto mt-16 p-6 bg-white border border-gray-300 rounded-lg shadow-md">
-            <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
-            <form onSubmit={handleRegister} className="space-y-4">
-                <div>
-                    <label className="block font-medium mb-1">Name</label>
-                    <input type="text" name="name" className="w-full border px-3 py-2 rounded" />
-                </div>
-                <div>
-                    <label className="block font-medium mb-1">Email</label>
-                    <input type="email" name="email" className="w-full border px-3 py-2 rounded" />
-                </div>
-                <div>
-                    <label className="block font-medium mb-1">PhotoURL</label>
-                    <input type="text" className="w-full border px-3 py-2 rounded" name='photo' placeholder="PhotoURL" required />
-                </div>
-                <div>
-                    <label className="block font-medium mb-1">Password</label>
-                    <div className="relative">
-                        <input
-                            type={showPassword ? 'text' : 'password'}
-                            className="w-full border px-3 py-2 rounded pr-10"
-                            placeholder="Password"
-                            name='password'
-                        />
-                        <button
-                            type="button"
-                            onClick={() => setShowPassWord(!showPassword)}
-                            className='absolute right-3 top-1/2 -translate-y-1/2 text-xl'
-                        >
-                            {showPassword ? <FaEyeSlash /> : <FaRegEye />}
-                        </button>
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 via-blue-50 to-blue-200">
+            <div className="bg-white w-full max-w-md p-8 rounded-2xl shadow-xl transform transition-all hover:scale-105">
+                <h2 className="text-3xl font-bold text-center mb-6 text-blue-700">Create Account</h2>
+                <form onSubmit={handleRegister} className="space-y-4">
+                    <div>
+                        <label className="block mb-1 font-medium text-gray-700">Name</label>
+                        <input type="text" name="name" placeholder="Your Name" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
                     </div>
-                </div>
 
-                <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
-                    Register
-                </button>
+                    <div>
+                        <label className="block mb-1 font-medium text-gray-700">Email</label>
+                        <input type="email" name="email" placeholder="Your Email" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                    </div>
+
+                    <div>
+                        <label className="block mb-1 font-medium text-gray-700">Password</label>
+                        <div className="relative">
+                            <input
+                                type={showPassword ? 'text' : 'password'}
+                                name="password"
+                                placeholder="Password"
+                                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 pr-10"
+                            />
+                            <button type="button" onClick={() => setShowPassWord(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700">
+                                {showPassword ? <FaEyeSlash /> : <FaRegEye />}
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" className="w-full py-2 rounded-lg text-white font-semibold bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 transition-all shadow-md">
+                        Register
+                    </button>
+                </form>
+
+                <div className="text-center my-4 text-gray-500">OR</div>
 
                 <button
-                    type="button"
                     onClick={handleGoogleSignUp}
-                    className="w-full mt-2 bg-white border text-black py-2 rounded hover:bg-gray-100 flex items-center justify-center gap-2"
+                    className="w-full py-2 rounded-lg border border-blue-300 flex items-center justify-center gap-2 hover:bg-blue-50 transition-all text-blue-700 font-medium"
                 >
-                    <svg aria-label="Google logo" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <svg aria-label="Google logo" width="20" height="20" viewBox="0 0 512 512">
                         <g>
                             <path d="m0 0H512V512H0" fill="#fff" />
                             <path fill="#34a853" d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341" />
@@ -153,13 +97,13 @@ const Register = () => {
                     Sign Up with Google
                 </button>
 
-                <div className="mt-4 text-center">
-                    <span className="text-sm">Already Have An Account?</span>{' '}
-                    <NavLink className="text-blue-600 font-medium" to="/signIn">
-                        Login Here
+                <div className="text-center mt-4 text-gray-600">
+                    Already have an account?{' '}
+                    <NavLink to="/signIn" className="text-blue-600 font-semibold hover:underline">
+                        Login
                     </NavLink>
                 </div>
-            </form>
+            </div>
         </div>
     );
 };

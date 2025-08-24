@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "../layouts/RootLayout";
 import Home from "../Components/Home/Home";
+import About from "../Shared/About/About"
 import Error from "../Pages/Error/Error";
 import Register from "../Pages/Register";
 import SignIn from "../Pages/SignIn";
@@ -18,26 +19,28 @@ export const router = createBrowserRouter([
         path: "/",
         element: <RootLayout />,
         children: [
+            // Public routes (available to everyone)
             { index: true, element: <Home /> },
-            { path: "allBooks", element: <PrivateRoute><AllBooks /></PrivateRoute> },
+            { path: "about", element: <About /> },
+            { path: "allBooks", element: <AllBooks /> },
+
+            // Protected routes (only for logged-in users)
+            { path: "addBook", element: <PrivateRoute><AddBook /></PrivateRoute> },
+            { path: "borrowedBooks", element: <PrivateRoute><BorrowedBooks /></PrivateRoute> },
             {
-                path: "books/:id",
-                element: <BookDetails />,
+                path: "books/:id", element: <PrivateRoute><BookDetails /></PrivateRoute>,
                 loader: ({ params }) =>
                     fetch(`https://library-server-side-puce.vercel.app/books/${params.id}`).then(res => res.json()),
             },
+            { path: "borrow/:id", element: <PrivateRoute><Borrow /></PrivateRoute> },
             {
-                path: "category/:name",
-                element: <CategoryBooks />,
+                path: "category/:name", element: <PrivateRoute><CategoryBooks /></PrivateRoute>,
                 loader: async ({ params }) => {
                     const res = await fetch(`https://library-server-side-puce.vercel.app/books?category=${encodeURIComponent(params.name)}`);
                     if (!res.ok) throw new Response("Failed to fetch", { status: res.status });
                     return res.json();
                 },
             },
-            { path: "borrow/:id", element: <Borrow /> },
-            { path: "borrowedBooks", element: <PrivateRoute><BorrowedBooks /></PrivateRoute> },
-            { path: "addBook", element: <PrivateRoute><AddBook /></PrivateRoute> },
             { path: "allBooksUpdate/:id", element: <PrivateRoute><AllBooksUpdate /></PrivateRoute> },
         ],
     },
