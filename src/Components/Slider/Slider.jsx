@@ -1,8 +1,8 @@
-import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/pagination';
+import React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
 
 const slides = [
     {
@@ -38,11 +38,10 @@ const slides = [
 ];
 
 const Slider = () => (
-    // Add pt-16 (or equal to your navbar height) to push slider below fixed navbar
-    <div className="w-full pt-16 bg-cyan-100 dark:bg-cyan-900">
+    <div className="w-full mt-16">
         <Swiper
             modules={[Autoplay, Pagination]}
-            spaceBetween={30}
+            spaceBetween={0}
             slidesPerView={1}
             autoplay={{ delay: 4000 }}
             pagination={{ clickable: true }}
@@ -50,19 +49,21 @@ const Slider = () => (
         >
             {slides.map(({ title, desc, btn, link }, i) => (
                 <SwiperSlide key={i}>
-                    <div className="h-[280px] flex flex-col justify-center items-center text-center px-4">
-                        <h2 className="text-2xl md:text-3xl font-bold text-cyan-800 dark:text-cyan-100 mb-3">
-                            {title}
-                        </h2>
-                        <p className="text-cyan-700 dark:text-cyan-200 max-w-2xl mb-5">
-                            {desc}
-                        </p>
-                        <a
-                            href={link}
-                            className="bg-cyan-700 text-white px-5 py-2 rounded-full hover:bg-cyan-800 dark:hover:bg-cyan-600 transition"
-                        >
-              F              {btn}
-                        </a>
+                    <div className="h-[400px] flex flex-col justify-center items-center text-center px-4 bg-gradient-to-r from-sky-100 via-cyan-100 to-sky-200">
+                        <div className="bg-white shadow-lg p-6 rounded-xl max-w-xl">
+                            <h2 className="text-2xl md:text-3xl font-bold text-blue-700 mb-3">
+                                {title}
+                            </h2>
+                            <p className="text-gray-600 mb-5">
+                                {desc}
+                            </p>
+                            <a
+                                href={link}
+                                className="bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 transition"
+                            >
+                                {btn}
+                            </a>
+                        </div>
                     </div>
                 </SwiperSlide>
             ))}

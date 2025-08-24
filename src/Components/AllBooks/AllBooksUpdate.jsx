@@ -13,6 +13,7 @@ const AllBooksUpdate = () => {
         category: "",
         quantity: 0,
         rating: 0,
+        price: 0, // added price
         shortDescription: "",
         image: "",
     });
@@ -24,7 +25,10 @@ const AllBooksUpdate = () => {
         axios
             .get(`https://library-server-side-puce.vercel.app/books/${id}`)
             .then((res) => {
-                setFormData(res.data);
+                setFormData({
+                    ...res.data,
+                    price: res.data.price || 0, // ensure price is not undefined
+                });
             })
             .catch(() => {
                 Swal.fire("Error", "Failed to load book", "error");
@@ -36,7 +40,10 @@ const AllBooksUpdate = () => {
         const { name, value } = e.target;
         setFormData((prev) => ({
             ...prev,
-            [name]: name === "quantity" || name === "rating" ? Number(value) : value,
+            [name]:
+                name === "quantity" || name === "rating" || name === "price"
+                    ? Number(value)
+                    : value,
         }));
     };
 
@@ -45,8 +52,10 @@ const AllBooksUpdate = () => {
         setUpdating(true);
         try {
             const { _id, ...fieldsToUpdate } = formData;
-
-            await axios.patch(`https://library-server-side-puce.vercel.app/books/${id}`, fieldsToUpdate);
+            await axios.patch(
+                `https://library-server-side-puce.vercel.app/books/${id}`,
+                fieldsToUpdate
+            );
 
             Swal.fire("Updated", "Book updated successfully", "success");
             navigate("/allBooks");
@@ -58,11 +67,18 @@ const AllBooksUpdate = () => {
         }
     };
 
-    if (loading) return <p className="text-center mt-10 text-gray-600">Loading book details...</p>;
+    if (loading)
+        return (
+            <p className="text-center mt-10 text-gray-600">
+                Loading book details...
+            </p>
+        );
 
     return (
         <div className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-md border border-gray-200">
-            <h2 className="text-2xl font-semibold text-blue-600 mb-6 text-center">📘 Update Book Information</h2>
+            <h2 className="text-2xl font-semibold text-blue-600 mb-6 text-center">
+                📘 Update Book Information
+            </h2>
             <form onSubmit={handleSubmit} className="space-y-4 text-sm">
                 <input
                     type="text"
@@ -107,6 +123,16 @@ const AllBooksUpdate = () => {
                     min="0"
                     max="5"
                     step="0.1"
+                    className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                />
+                <input
+                    type="number"
+                    name="price"
+                    value={formData.price}
+                    onChange={handleChange}
+                    placeholder="Price"
+                    min="0"
+                    step="0.01"
                     className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
                 <input

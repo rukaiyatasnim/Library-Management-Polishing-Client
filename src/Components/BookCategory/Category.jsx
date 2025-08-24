@@ -46,12 +46,15 @@ const Category = () => {
     return (
         <section className="max-w-6xl mx-auto px-4 py-12">
             <h2 className="text-3xl font-bold mb-8 text-center">Book Categories</h2>
-            <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
+
+            <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 {categories.map(({ name, image }, index) => (
                     <motion.div
                         key={name}
-                        onClick={() => navigate(`/category/${encodeURIComponent(name)}`)}
-                        className="cursor-pointer rounded-lg overflow-hidden shadow-lg bg-white"
+                        onClick={() =>
+                            navigate(`/category/${encodeURIComponent(name)}`)
+                        }
+                        className="cursor-pointer rounded-lg overflow-hidden shadow-lg bg-white flex flex-col h-full"
                         initial={{ opacity: 0, y: 40 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.1, duration: 0.5 }}
@@ -60,9 +63,9 @@ const Category = () => {
                         <img
                             src={image}
                             alt={name}
-                            className="w-full h-48 object-cover"
+                            className="w-full h-40 object-cover"
                         />
-                        <div className="p-4">
+                        <div className="p-4 flex-1 flex items-center justify-center">
                             <h3 className="text-xl font-semibold text-gray-800 text-center">
                                 {name}
                             </h3>

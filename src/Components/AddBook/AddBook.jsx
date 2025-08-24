@@ -17,6 +17,7 @@ const AddBook = () => {
             category: form.category.value,
             shortDescription: form.shortDescription.value,
             rating: parseFloat(form.rating.value),
+            price: parseFloat(form.price.value), // Added price
         };
 
         const token = localStorage.getItem("access-token");
@@ -125,6 +126,17 @@ const AddBook = () => {
                         min="1"
                         max="5"
                         step="0.1"
+                        required
+                    />
+                </div>
+                <div>
+                    <label className="font-semibold">Price</label>
+                    <input
+                        type="number"
+                        name="price"
+                        className="input input-bordered w-full mt-1"
+                        min="0"
+                        step="0.01"
                         required
                     />
                 </div>
